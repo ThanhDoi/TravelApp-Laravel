@@ -24,5 +24,18 @@ class UsersTableSeeder extends Seeder
                 'role_id'        => $role->id,
             ]);
         }
+
+        $faker = Faker\Factory::create();
+
+        for ($i = 0; $i < 500; $i++) {
+            $role = Role::where('name', 'user')->firstOrFail();
+            $name = $faker->unique()->name;
+            User::create([
+                'name' => $name,
+                'email' => str_replace(' ', '', $name) . "@example.com",
+                'password' => bcrypt('123456'),
+                'role_id' => $role->id,
+            ]);
+        }
     }
 }
