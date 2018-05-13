@@ -22,6 +22,7 @@ class CreateHotelsTable extends Migration
             $table->text('features');
             $table->string('feature_vectors');
             $table->string('img_url');
+            $table->integer('city_id');
             $table->timestamps();
         });
     }

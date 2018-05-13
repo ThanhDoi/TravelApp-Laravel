@@ -27,7 +27,7 @@ class UsersTableSeeder extends Seeder
 
         $faker = Faker\Factory::create();
 
-        for ($i = 0; $i < 500; $i++) {
+        for ($i = 0; $i < 300; $i++) {
             $role = Role::where('name', 'user')->firstOrFail();
             $name = $faker->unique()->name;
             User::create([

@@ -21,15 +21,16 @@ class HotelsTableSeeder extends Seeder
     			$i++;
     			continue;
     		}
-    		$feature_vectors = implode("|", array_slice($data, 0, 12));
+    		$feature_vectors = implode("|", array_slice($data, 1, 12));
     		Hotel::create([
-    			'name' => $data[17],
-    			'location' => $data[14],
-    			'price' => $data[15],
-    			'star' => $data[16],
-    			'features' => $data[12],
+                'city_id' => $data[0],
+    			'name' => $data[18],
+    			'location' => $data[15],
+    			'price' => $data[16],
+    			'star' => $data[17],
+    			'features' => $data[13],
     			'feature_vectors' => $feature_vectors,
-    			'img_url' => $data[13],
+    			'img_url' => $data[14],
     		]);
     	}
     }

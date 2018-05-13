@@ -37,4 +37,5 @@ class User extends \TCG\Voyager\Models\User
     public function hotels() {
         return $this->belongsToMany('App\Hotel')->withPivot('rating', 'predict');
     }
+
 }
