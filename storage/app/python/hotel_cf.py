@@ -26,7 +26,10 @@ class CF(object):
 			ids = np.where(users == n)[0].astype(np.int32)
 			item_ids = self.Y_data[ids, 1]
 			ratings = self.Y_data[ids, 2]
-			m = np.mean(ratings)
+			if len(ratings) != 0:
+				m = np.mean(ratings)
+			else:
+				m = 0
 			if np.isnan(m):
 				m = 0
 			self.mu[n] = m
@@ -87,7 +90,7 @@ class CF(object):
 
 user_id = int(sys.argv[1])
 
-r = requests.post('http://travelapp.test/api/getCFData')
+r = requests.post('http://travelapp.test/api/getHotelCFData')
 
 user_ids = r.json()['users']
 user_ids = user_ids.split('|')

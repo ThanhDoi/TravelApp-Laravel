@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateHotelsTable extends Migration
+class CreateAttractionsTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,16 +13,14 @@ class CreateHotelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('hotels', function (Blueprint $table) {
+        Schema::create('attractions', function (Blueprint $table) {
             $table->increments('id');
             $table->string('name');
             $table->string('location');
-            $table->string('price')->nullable();
-            $table->string('star')->nullable();
             $table->text('features')->nullable();
             $table->string('feature_vectors')->nullable();
-            $table->string('img_url')->nullable();
             $table->integer('city_id');
+            $table->string('img_url')->nullable();
             $table->timestamps();
         });
     }
@@ -34,6 +32,6 @@ class CreateHotelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('hotels');
+        Schema::dropIfExists('attractions');
     }
 }

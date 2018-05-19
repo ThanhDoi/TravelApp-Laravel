@@ -13,22 +13,19 @@ class VisitedHotelsSeeder extends Seeder
      */
     public function run()
     {
-    	$csvFilePath = storage_path() . '/app/python/ratings.csv';
+    	$csvFilePath = storage_path() . '/app/python/hotel_ratings.csv';
     	$csvFile = file($csvFilePath);
-    	$hotelCount = count(Hotel::all());
     	$faker = Faker\Factory::create();
 
     	foreach ($csvFile as $line) {
     		$data = str_getcsv($line);
     		list($user_id, $hotel_id, $rating) = $data;
-    		if ($user_id <= count(User::all()) && $hotel_id <= $hotelCount) {
-    			DB::table('visited_hotels')->insert([
-    				'user_id' => $user_id + 1,
-    				'hotel_id' => $hotel_id,
-                    'rating' => $rating,
-    				'created_at' => $faker->dateTimeThisYear($max = 'now'),
-    			]);
-    		}
-    	}
+            DB::table('visited_hotels')->insert([
+                'user_id' => $user_id + 1,
+                'hotel_id' => $hotel_id,
+                'rating' => $rating,
+                'created_at' => $faker->dateTimeThisYear($max = 'now'),
+            ]);
+        }
     }
 }

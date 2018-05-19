@@ -34,8 +34,8 @@ class User extends \TCG\Voyager\Models\User
         return $this->api_token;
     }
 
-    public function hotels() {
-        return $this->belongsToMany('App\Hotel')->withPivot('rating', 'predict');
+    public function trips() {
+        return $this->hasMany('App\Trip');
     }
 
 }

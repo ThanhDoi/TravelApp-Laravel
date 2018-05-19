@@ -20,8 +20,8 @@ class CreateHotelUserTable extends Migration
             $table->boolean('predict');
 
             $table->primary(['user_id', 'hotel_id']);
-            $table->foreign('user_id')->references('id')->on('users');
-            $table->foreign('hotel_id')->references('id')->on('hotels');
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
             $table->timestamps();
         });
     }

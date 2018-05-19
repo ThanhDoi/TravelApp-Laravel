@@ -4,7 +4,7 @@ use Illuminate\Support\Facades\Schema;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Migrations\Migration;
 
-class CreateVisitedHotelsTable extends Migration
+class CreateHotelTripTables extends Migration
 {
     /**
      * Run the migrations.
@@ -13,15 +13,14 @@ class CreateVisitedHotelsTable extends Migration
      */
     public function up()
     {
-        Schema::create('visited_hotels', function (Blueprint $table) {
-            $table->integer('user_id')->unsigned();
+        Schema::create('hotel_trip', function (Blueprint $table) {
+            $table->integer('trip_id')->unsigned();
             $table->integer('hotel_id')->unsigned();
-            $table->double('rating', 8, 2);
-            $table->timestamps();
 
-            $table->primary(['user_id', 'hotel_id']);
-            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->primary(['trip_id', 'hotel_id']);
+            $table->foreign('trip_id')->references('id')->on('trips')->onDelete('cascade');
             $table->foreign('hotel_id')->references('id')->on('hotels')->onDelete('cascade');
+            $table->timestamps();
         });
     }
 
@@ -32,6 +31,6 @@ class CreateVisitedHotelsTable extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('visited_hotels');
+        Schema::dropIfExists('hotel_trip');
     }
 }

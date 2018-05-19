@@ -28,11 +28,16 @@ class UserController extends Controller
 		}
 	}
 
-	public function getVisitedHotels(Request $request) {
+	public function getVisitedItems(Request $request) {
 		$user = Auth::guard('api')->user();
-		$results = DB::table('visited_hotels')->where('user_id', $user->id)->get()->all();
+		$visited_hotels = DB::table('visited_hotels')->where('user_id', $user->id)->get()->all();
+		$visited_attractions = DB::table('visited_attractions')->where('user_id', $user->id)->get()->all();
+		$visited_trips = DB::table('trips')->where('user_id', $user->id)->get()->all();
 		return response()->json([
-			'data' => $results
+			'visited_hotels' => $visited_hotels,
+			'visited_attractions' => $visited_attractions,
+			'visited_trips' => $visited_trips
 		], 200);
 	}
+
 }

@@ -3,23 +3,22 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
-use App\Hotel;
-use App\User;
+use App\Attraction;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
 
-class HotelController extends Controller
+class AttractionController extends Controller
 {
     public function index() {
-    	return Hotel::all();
+    	return Attraction::all();
     }
 
     public function avgRating(Request $request, $id) {
         $user = Auth::guard('api')->user();
-    	$ratings = DB::table('visited_hotels')->where('hotel_id', $id)->get()->pluck('rating')->all();
-        $user_rating = DB::table('visited_hotels')->where('user_id', $user->id)->where('hotel_id', $id)->get()->pluck('rating');
-        $user_recommend_rating = DB::table('hotel_user')->where('user_id', $user->id)->where('hotel_id', $id)->get()->pluck('rating');
+    	$ratings = DB::table('visited_attractions')->where('attraction_id', $id)->get()->pluck('rating')->all();
+        $user_rating = DB::table('visited_attractions')->where('user_id', $user->id)->where('attraction_id', $id)->get()->pluck('rating');
+        $user_recommend_rating = DB::table('attraction_user')->where('user_id', $user->id)->where('attraction_id', $id)->get()->pluck('rating');
 
     	if (count($ratings) == 0) {
     		return response()->json([
@@ -49,23 +48,23 @@ class HotelController extends Controller
     	$user = Auth::guard('api')->user();
     	$rate = $request["rate"];
 
-        $row = DB::table('visited_hotels')
+        $row = DB::table('visited_attractions')
         ->where('user_id', $user->id)
-        ->where('hotel_id', $id)
+        ->where('attraction_id', $id)
         ->first();
 
         if ($row == null) {
-            DB::table('visited_hotels')
+            DB::table('visited_attractions')
             ->insert([
                 'user_id' => $user->id,
-                'hotel_id' => $id,
+                'attraction_id' => $id,
                 'rating' => $rate,
                 'created_at' => Carbon::now()
             ]);
         } else {
-            DB::table('visited_hotels')
+            DB::table('visited_attractions')
             ->where('user_id', $user->id)
-            ->where('hotel_id', $id)
+            ->where('attraction_id', $id)
             ->update(['rating' => $rate]);
         }
 
@@ -78,23 +77,23 @@ class HotelController extends Controller
         $user = Auth::guard('api')->user();
         $rate = $request["rate"];
 
-        $row = DB::table('hotel_user')
+        $row = DB::table('attraction_user')
         ->where('user_id', $user->id)
-        ->where('hotel_id', $id)
+        ->where('attraction_id', $id)
         ->first();
 
         if ($row == null) {
-            DB::table('hotel_user')
+            DB::table('attraction_user')
             ->insert([
                 'user_id' => $user->id,
-                'hotel_id' => $id,
+                'attraction_id' => $id,
                 'rating' => $rate,
                 'predict' => 0
             ]);
         } else {
-            DB::table('hotel_user')
+            DB::table('attraction_user')
             ->where('user_id', $user->id)
-            ->where('hotel_id', $id)
+            ->where('attraction_id', $id)
             ->update(['rating' => $rate]);
         }
 

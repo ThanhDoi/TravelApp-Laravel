@@ -13,22 +13,20 @@ class UsersRatingHotelsSeeder extends Seeder
      */
     public function run()
     {
-    	$csvFilePath = storage_path() . '/app/python/ratings.csv';
+    	$csvFilePath = storage_path() . '/app/python/hotel_ratings.csv';
     	$csvFile = file($csvFilePath);
     	$hotelCount = count(Hotel::all());
 
     	foreach ($csvFile as $line) {
     		$data = str_getcsv($line);
     		list($user_id, $hotel_id, $rating) = $data;
-    		if ($user_id <= count(User::all()) && $hotel_id <= $hotelCount) {
-    			$user = User::where('id', ($user_id + 1))->firstOrFail();
-    			$hotel = Hotel::where('id', $hotel_id)->firstOrFail();
-
-    			$user->hotels()->attach($hotel->id, [
-    				'rating' => $rating,
-    				'predict' => false,
-    			]);
-    		}
+    		DB::table('hotel_user')
+            ->insert([
+                'user_id' => $user_id + 1,
+                'hotel_id' => $hotel_id,
+                'rating' => $rating,
+                'predict' => 0
+            ]);
     	}
     }
 }

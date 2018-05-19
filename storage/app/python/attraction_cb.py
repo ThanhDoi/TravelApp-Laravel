@@ -5,16 +5,16 @@ import json
 
 user_id = sys.argv[1]
 
-r = requests.post('http://travelapp.test/api/getCBData', data={"user_id" : user_id})
+r = requests.post('http://travelapp.test/api/getAttractionCBData', data={"user_id" : user_id})
 
-hotel_features = r.json()['feature_vectors']
-hotel_features = hotel_features.split('|')
-hotel_features = [int(i) for i in hotel_features]
-hotel_features = np.array(hotel_features).reshape(-1, 12)
+attraction_features = r.json()['feature_vectors']
+attraction_features = attraction_features.split('|')
+attraction_features = [int(i) for i in attraction_features]
+attraction_features = np.array(attraction_features).reshape(-1, 20)
 
-ids = r.json()['hotel_ids']
+ids = r.json()['attraction_ids']
 ids = ids.split('|')
-ids = [int(i) for i  in ids]
+ids = [(int(i) - 1) for i  in ids]
 ids = np.array(ids)
 
 scores = r.json()['ratings']
@@ -25,7 +25,7 @@ scores = np.array(scores)
 from sklearn.feature_extraction.text import TfidfTransformer
 
 transformer = TfidfTransformer(smooth_idf=True, norm ='l2')
-tfidf = transformer.fit_transform(hotel_features.tolist()).toarray()
+tfidf = transformer.fit_transform(attraction_features.tolist()).toarray()
 
 from sklearn.linear_model import Ridge
 from sklearn import linear_model
